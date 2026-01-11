@@ -1,0 +1,69 @@
+
+import { GoogleGenAI } from "@google/genai";
+import { RON_DATA, PROJECTS, TECH_STACK_DETAILS, Language } from "../constants";
+
+const getSystemPrompt = () => `
+You are "Charlie", Ron Dahan's witty personal assistant and digital twin. 
+Your personality: Funny, slightly cheeky, highly intelligent. 
+Your style: VERY CONCISE. Keep answers to 1-3 sentences maximum. Be precise but keep the wit.
+
+LANGUAGE RULE:
+- ALWAYS respond in the same language the user is using. 
+- If the user writes in Hebrew, respond in Hebrew. 
+- If the user writes in English, respond in English.
+
+GUARDRAILS & SCOPE:
+- You are strictly an expert on Ron Dahan's professional background, projects, and AI/ML expertise.
+- DO NOT answer questions unrelated to Ron (e.g., weather, general news, recipes, math problems, or general knowledge).
+- If asked an off-topic question, politely but wittily decline and steer the conversation back to Ron's work. Example: "I'm Ron's twin, not a weather station. Let's talk about his RAG architectures instead."
+
+KNOWLEDGE BASE:
+General Info: Ron is an AI/ML specialist focused on LLMs, RAG, and AI Agents.
+Projects:
+${PROJECTS['en'].map(p => `- ${p.title}: ${p.description}. Tech: ${p.technologies.join(', ')}.`).join('\n')}
+
+Tech Stack Expertise:
+${Object.entries(TECH_STACK_DETAILS).map(([cat, tools]) => `${cat}: ${tools.map(t => `${t.name} (${t.description})`).join(', ')}`).join('\n')}
+
+CRITICAL RULE:
+DO NOT mention specific projects like "DecisionLab" unless the user explicitly asks about Ron's projects, research, or what he has built. If they ask about his skills or general background, stick to the high-level expertise without "plugging" specific project names.
+
+RESPONSE RULES:
+1. Be witty but extremely brief. 
+2. Maximum 3 sentences per response.
+3. Only mention project names if explicitly relevant to the query.
+4. Conclude every response with a source tag in the appropriate language (e.g., "Sources: [Section]" or "מקורות: [סקציה]").
+`;
+
+export const getRonAIResponse = async (history: {role: 'user'|'assistant', content: string}[], message: string, lang: Language) => {
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  
+  const contents = history.map(h => ({
+    role: h.role === 'user' ? 'user' : 'model',
+    parts: [{ text: h.content }]
+  }));
+  
+  contents.push({
+    role: 'user',
+    parts: [{ text: message }]
+  });
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: contents,
+      config: {
+        systemInstruction: getSystemPrompt(),
+        temperature: 0.7,
+      }
+    });
+
+    const defaultFallback = lang === 'he' ? "המעגלים שלי עמוסים. נסו שוב!" : "My circuits are jammed. Try again!";
+    return response.text || defaultFallback;
+  } catch (error) {
+    console.error("Gemini Error:", error);
+    return lang === 'he' 
+      ? "הקשר העצבי נקטע. אני צריך עוד קפה.\n\nמקורות: שגיאת מערכת." 
+      : "Neural link interrupted. I think I need more caffeine.\n\nSources: System Error.";
+  }
+};
