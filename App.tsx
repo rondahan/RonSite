@@ -11,36 +11,36 @@ import { Language, TRANSLATIONS, RON_DATA } from './constants';
 const Contact = ({ lang }: { lang: Language }) => {
   const t = TRANSLATIONS[lang].contact;
   return (
-    <section id="contact" className="py-32 px-6 bg-slate-900/30 relative">
+    <section id="contact" className="py-20 sm:py-32 px-4 sm:px-6 bg-slate-900/30 relative">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/10 via-transparent to-transparent opacity-50"></div>
       <div className="max-w-4xl mx-auto text-center relative z-10">
-        <h2 className="text-5xl font-extrabold mb-6 tracking-tight">{t.title}</h2>
-        <p className="text-slate-400 mb-16 max-w-lg mx-auto text-lg">{t.subtitle}</p>
+        <h2 className="text-3xl sm:text-5xl font-extrabold mb-4 sm:mb-6 tracking-tight">{t.title}</h2>
+        <p className="text-slate-400 mb-12 sm:mb-16 max-w-lg mx-auto text-base sm:text-lg px-4">{t.subtitle}</p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <a href={`mailto:${RON_DATA.email}`} className="glass p-10 rounded-3xl flex flex-col items-center gap-6 group cursor-pointer hover:border-blue-500/50 hover:shadow-[0_0_50px_rgba(59,130,246,0.1)] transition-all active:scale-[0.98]">
-            <div className="p-6 bg-blue-600/10 rounded-2xl text-blue-500 group-hover:scale-110 group-hover:bg-blue-600/20 transition-all duration-300">
-              <Mail className="w-8 h-8" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-16">
+          <a href={`mailto:${RON_DATA.email}`} className="glass p-6 sm:p-10 rounded-2xl sm:rounded-3xl flex flex-col items-center gap-4 sm:gap-6 group cursor-pointer hover:border-blue-500/50 hover:shadow-[0_0_50px_rgba(59,130,246,0.1)] transition-all active:scale-[0.98]">
+            <div className="p-4 sm:p-6 bg-blue-600/10 rounded-xl sm:rounded-2xl text-blue-500 group-hover:scale-110 group-hover:bg-blue-600/20 transition-all duration-300">
+              <Mail className="w-6 h-6 sm:w-8 sm:h-8" />
             </div>
             <div>
-              <h4 className="font-bold text-xl mb-1">{t.emailLabel}</h4>
-              <p className="text-slate-500 font-mono text-sm">{RON_DATA.email}</p>
+              <h4 className="font-bold text-lg sm:text-xl mb-1">{t.emailLabel}</h4>
+              <p className="text-slate-500 font-mono text-xs sm:text-sm break-all">{RON_DATA.email}</p>
             </div>
           </a>
-          <a href={RON_DATA.linkedin} target="_blank" rel="noopener noreferrer" className="glass p-10 rounded-3xl flex flex-col items-center gap-6 group cursor-pointer hover:border-blue-500/50 hover:shadow-[0_0_50px_rgba(59,130,246,0.1)] transition-all active:scale-[0.98]">
-            <div className="p-6 bg-blue-600/10 rounded-2xl text-blue-500 group-hover:scale-110 group-hover:bg-blue-600/20 transition-all duration-300">
-              <Linkedin className="w-8 h-8" />
+          <a href={RON_DATA.linkedin} target="_blank" rel="noopener noreferrer" className="glass p-6 sm:p-10 rounded-2xl sm:rounded-3xl flex flex-col items-center gap-4 sm:gap-6 group cursor-pointer hover:border-blue-500/50 hover:shadow-[0_0_50px_rgba(59,130,246,0.1)] transition-all active:scale-[0.98]">
+            <div className="p-4 sm:p-6 bg-blue-600/10 rounded-xl sm:rounded-2xl text-blue-500 group-hover:scale-110 group-hover:bg-blue-600/20 transition-all duration-300">
+              <Linkedin className="w-6 h-6 sm:w-8 sm:h-8" />
             </div>
             <div>
-              <h4 className="font-bold text-xl mb-1">{t.linkedinLabel}</h4>
-              <p className="text-slate-500 text-sm">{t.linkedinDesc}</p>
+              <h4 className="font-bold text-lg sm:text-xl mb-1">{t.linkedinLabel}</h4>
+              <p className="text-slate-500 text-xs sm:text-sm">{t.linkedinDesc}</p>
             </div>
           </a>
         </div>
 
         <button 
           onClick={() => window.location.href = `mailto:${RON_DATA.email}`}
-          className="px-16 py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black text-xl transition-all shadow-2xl shadow-blue-600/30 active:scale-95 hover:-translate-y-1"
+          className="w-full sm:w-auto px-12 sm:px-16 py-4 sm:py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl sm:rounded-2xl font-black text-lg sm:text-xl transition-all shadow-2xl shadow-blue-600/30 active:scale-95 hover:-translate-y-1"
         >
           {t.cta}
         </button>
@@ -93,11 +93,11 @@ const App: React.FC = () => {
     <div className="min-h-screen relative selection:bg-blue-500/30" dir={lang === 'he' ? 'rtl' : 'ltr'}>
       <div className="glow-cursor"></div>
 
-      <nav className={`fixed top-0 left-0 right-0 z-[120] transition-all duration-500 pointer-events-none ${scrolled ? 'py-4' : 'py-8'}`}>
-        <div className="max-w-4xl mx-auto px-6 flex justify-center">
-          <div className={`glass px-8 py-3 rounded-full flex items-center gap-6 md:gap-10 transition-all duration-500 pointer-events-auto ${scrolled ? 'shadow-2xl border-white/20' : 'border-white/5'}`}>
-            <a href="#" className="text-lg font-black text-white tracking-tighter flex items-center gap-2 group transition-all active:scale-95">
-              <Terminal className="w-5 h-5 text-blue-500 group-hover:rotate-12 transition-transform" />
+      <nav className={`fixed top-0 left-0 right-0 z-[120] transition-all duration-500 pointer-events-none ${scrolled ? 'py-3 sm:py-4' : 'py-6 sm:py-8'}`}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 flex justify-center">
+          <div className={`glass px-4 sm:px-8 py-2.5 sm:py-3 rounded-full flex items-center gap-3 sm:gap-6 md:gap-10 transition-all duration-500 pointer-events-auto ${scrolled ? 'shadow-2xl border-white/20' : 'border-white/5'}`}>
+            <a href="#" className="text-base sm:text-lg font-black text-white tracking-tighter flex items-center gap-1.5 sm:gap-2 group transition-all active:scale-95">
+              <Terminal className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 group-hover:rotate-12 transition-transform" />
               RD.AI
             </a>
             

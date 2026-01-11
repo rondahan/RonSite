@@ -114,43 +114,43 @@ const Chatbot: React.FC<ChatbotProps> = ({ lang }) => {
 
   return (
     <div 
-      className={`fixed ${isRtl ? 'left-4 sm:left-10' : 'right-4 sm:right-10'} bottom-10 z-[110] transition-all duration-500 ease-out flex flex-col items-end`}
+      className={`fixed ${isRtl ? 'left-0 sm:left-4 lg:left-10' : 'right-0 sm:right-4 lg:right-10'} bottom-0 sm:bottom-10 z-[110] transition-all duration-500 ease-out flex flex-col ${isRtl ? 'items-start' : 'items-end'} w-full sm:w-auto`}
       dir={isRtl ? 'rtl' : 'ltr'}
     >
       {/* Expanded Chat Window */}
       <div 
-        className={`glass rounded-[2rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.6)] flex flex-col h-[600px] w-[92vw] sm:w-[420px] border-white/10 transition-all duration-500 origin-bottom-right mb-4 ${
+        className={`glass rounded-t-3xl sm:rounded-[2rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.6)] flex flex-col h-[calc(100vh-80px)] sm:h-[600px] w-[100vw] sm:w-[420px] border-white/10 transition-all duration-500 ${isRtl ? 'origin-bottom-left' : 'origin-bottom-right'} mb-0 sm:mb-4 ${
           isMinimized ? 'opacity-0 scale-90 translate-y-10 pointer-events-none' : 'opacity-100 scale-100 translate-y-0'
         }`}
       >
-        <div className="p-5 border-b border-white/5 flex items-center justify-between bg-white/[0.03] backdrop-blur-3xl">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center relative shadow-lg">
-              <Bot className="w-6 h-6 text-white" />
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-slate-950 rounded-full"></div>
+        <div className="p-4 sm:p-5 border-b border-white/5 flex items-center justify-between bg-white/[0.03] backdrop-blur-3xl">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 bg-blue-600 rounded-xl flex items-center justify-center relative shadow-lg">
+              <Bot className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              <div className="absolute -bottom-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 border-2 border-slate-950 rounded-full"></div>
             </div>
             <div>
-              <h3 className="font-black text-base">{lang === 'he' ? "צ'ארלי" : "Charlie"}</h3>
-              <span className="text-[9px] text-green-500 font-black uppercase tracking-widest flex items-center gap-1.5">
+              <h3 className="font-black text-sm sm:text-base">{lang === 'he' ? "צ'ארלי" : "Charlie"}</h3>
+              <span className="text-[8px] sm:text-[9px] text-green-500 font-black uppercase tracking-widest flex items-center gap-1.5">
                 <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
                 {t.status}
               </span>
             </div>
           </div>
           <div className="flex items-center gap-1">
-            <button onClick={handleExport} title="Export Chat" className="p-2 hover:bg-white/10 rounded-lg text-slate-400 transition-all hover:text-white">
-              <Download className="w-4 h-4" />
+            <button onClick={handleExport} title="Export Chat" className="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg text-slate-400 transition-all hover:text-white">
+              <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
-            <button onClick={handleClear} title="Clear Chat" className="p-2 hover:bg-white/10 rounded-lg text-slate-400 transition-all hover:text-white">
-              <Trash2 className="w-4 h-4" />
+            <button onClick={handleClear} title="Clear Chat" className="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg text-slate-400 transition-all hover:text-white">
+              <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
-            <button onClick={() => setIsMinimized(true)} title="Close" className="p-2 hover:bg-white/10 rounded-lg text-slate-400 transition-all hover:text-white">
-              <X className="w-4 h-4" />
+            <button onClick={() => setIsMinimized(true)} title="Close" className="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg text-slate-400 transition-all hover:text-white">
+              <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>
 
-        <div className="flex-grow overflow-y-auto p-6 space-y-6 no-scrollbar bg-gradient-to-b from-transparent to-white/[0.01]">
+        <div className="flex-grow overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6 no-scrollbar bg-gradient-to-b from-transparent to-white/[0.01]">
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={`flex gap-4 max-w-[85%] ${msg.role === 'user' ? (isRtl ? 'flex-row' : 'flex-row-reverse') : (isRtl ? 'flex-row-reverse' : 'flex-row')}`}>
@@ -159,7 +159,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ lang }) => {
                 }`}>
                   {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
                 </div>
-                <div className={`p-4 rounded-2xl text-xs leading-relaxed relative shadow-xl transition-all ${
+                <div className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs leading-relaxed relative shadow-xl transition-all ${
                   msg.role === 'user' 
                   ? 'bg-blue-600 text-white' 
                   : 'bg-white/[0.07] border border-white/10 text-slate-200 backdrop-blur-xl'
@@ -186,14 +186,14 @@ const Chatbot: React.FC<ChatbotProps> = ({ lang }) => {
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="p-6 border-t border-white/5 bg-white/[0.02] space-y-4">
-          <div className="flex flex-wrap gap-2 overflow-x-auto pb-2 no-scrollbar">
+        <div className="p-4 sm:p-6 border-t border-white/5 bg-white/[0.02] space-y-3 sm:space-y-4">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 overflow-x-auto pb-2 no-scrollbar">
             {t.suggestions.map((suggestion, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSend(suggestion)}
                 disabled={isTyping}
-                className="whitespace-nowrap px-4 py-2 bg-blue-600/10 hover:bg-blue-600 hover:text-white border border-blue-500/20 rounded-xl text-[9px] font-black text-blue-400 transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none uppercase tracking-[0.1em]"
+                className="whitespace-nowrap px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-600/10 hover:bg-blue-600 hover:text-white border border-blue-500/20 rounded-lg sm:rounded-xl text-[8px] sm:text-[9px] font-black text-blue-400 transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none uppercase tracking-[0.1em]"
               >
                 {suggestion}
               </button>
@@ -202,7 +202,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ lang }) => {
 
           <form 
             onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-            className="relative flex items-center gap-3"
+            className="relative flex items-center gap-2 sm:gap-3"
           >
             <input
               type="text"
@@ -210,14 +210,14 @@ const Chatbot: React.FC<ChatbotProps> = ({ lang }) => {
               onChange={(e) => setInput(e.target.value)}
               placeholder={t.placeholder}
               disabled={isTyping}
-              className="w-full bg-white/[0.05] border border-white/10 rounded-xl py-4 px-6 pr-14 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.08] text-xs font-medium transition-all"
+              className="w-full bg-white/[0.05] border border-white/10 rounded-lg sm:rounded-xl py-3 sm:py-4 px-4 sm:px-6 pr-12 sm:pr-14 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.08] text-[11px] sm:text-xs font-medium transition-all"
             />
             <button 
               type="submit"
               disabled={!input.trim() || isTyping}
-              className={`absolute ${isRtl ? 'left-2.5' : 'right-2.5'} top-1/2 -translate-y-1/2 p-2.5 bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 text-white rounded-lg transition-all shadow-lg active:scale-90`}
+              className={`absolute ${isRtl ? 'left-2' : 'right-2'} sm:${isRtl ? 'left-2.5' : 'right-2.5'} top-1/2 -translate-y-1/2 p-2 sm:p-2.5 bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 text-white rounded-lg transition-all shadow-lg active:scale-90`}
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           </form>
         </div>
@@ -226,12 +226,12 @@ const Chatbot: React.FC<ChatbotProps> = ({ lang }) => {
       {/* Floating Bubble */}
       <div 
         onClick={() => setIsMinimized(!isMinimized)}
-        className={`p-5 bg-blue-600 rounded-full shadow-[0_20px_60px_-15px_rgba(59,130,246,0.6)] cursor-pointer hover:scale-110 transition-all group animate-float ${
+        className={`p-4 sm:p-5 bg-blue-600 rounded-full shadow-[0_20px_60px_-15px_rgba(59,130,246,0.6)] cursor-pointer hover:scale-110 transition-all group animate-float m-4 sm:m-0 ${
           isMinimized ? 'opacity-100' : 'opacity-0 scale-50 pointer-events-none'
         }`}
       >
-        <Bot className="w-10 h-10 text-white" />
-        <div className="absolute top-0 right-0 w-4 h-4 bg-green-500 border-4 border-slate-950 rounded-full"></div>
+        <Bot className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+        <div className="absolute top-0 right-0 w-3 h-3 sm:w-4 sm:h-4 bg-green-500 border-3 sm:border-4 border-slate-950 rounded-full"></div>
       </div>
     </div>
   );

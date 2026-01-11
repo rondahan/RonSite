@@ -12,19 +12,19 @@ const Projects: React.FC<ProjectsProps> = ({ lang }) => {
   const projects = PROJECTS[lang];
 
   return (
-    <section id="projects" className="py-32 px-6 bg-slate-900/10">
+    <section id="projects" className="py-20 sm:py-32 px-4 sm:px-6 bg-slate-900/10">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-24 text-center">
-          <h2 className="text-5xl font-black mb-6 tracking-tight">{t.title}</h2>
-          <p className="text-slate-400 max-w-2xl mx-auto text-lg font-medium">{t.subtitle}</p>
+        <div className="mb-16 sm:mb-24 text-center">
+          <h2 className="text-3xl sm:text-5xl font-black mb-4 sm:mb-6 tracking-tight">{t.title}</h2>
+          <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg font-medium px-4">{t.subtitle}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
           {projects.map((project) => (
             <div 
               key={project.id}
               id={project.id}
-              className="project-card group relative glass rounded-3xl overflow-hidden hover:border-blue-500/40 transition-all duration-500 flex flex-col h-full hover:-translate-y-2 hover:shadow-[0_20px_60px_-15px_rgba(59,130,246,0.15)]"
+              className="project-card group relative glass rounded-2xl sm:rounded-3xl overflow-hidden hover:border-blue-500/40 transition-all duration-500 flex flex-col h-full hover:-translate-y-2 hover:shadow-[0_20px_60px_-15px_rgba(59,130,246,0.15)]"
             >
               <div className="shine"></div>
               <div className="relative h-60 overflow-hidden">

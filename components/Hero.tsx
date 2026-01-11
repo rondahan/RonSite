@@ -49,55 +49,55 @@ const Hero: React.FC<HeroProps> = ({ lang }) => {
       </div>
 
       <div className="relative z-10 text-center max-w-5xl">
-        <div className="inline-flex items-center gap-2 mb-8 px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-bold tracking-[0.2em] uppercase backdrop-blur-md animate-float">
-          <Sparkles className="w-3.5 h-3.5" />
-          {t.available}
+        <div className="inline-flex items-center gap-2 mb-6 sm:mb-8 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase backdrop-blur-md animate-float">
+          <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+          <span className="whitespace-nowrap">{t.available}</span>
         </div>
         
-        <h1 className="text-6xl md:text-9xl font-black mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-slate-500 leading-none tracking-tighter">
+        <h1 className="text-4xl sm:text-6xl md:text-9xl font-black mb-6 sm:mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-slate-500 leading-none tracking-tighter px-2">
           {t.greeting} <br className="md:hidden" /> {lang === 'he' ? RON_DATA.nameHe : RON_DATA.name}
         </h1>
         
-        <div className="h-20 mb-10">
-          <p className="text-3xl md:text-5xl font-black text-blue-500 mono tracking-tight">
+        <div className="h-16 sm:h-20 mb-6 sm:mb-10">
+          <p className="text-2xl sm:text-3xl md:text-5xl font-black text-blue-500 mono tracking-tight">
             {displayText}
-            <span className="inline-block w-2 md:w-3 h-10 md:h-12 bg-blue-500 ml-2 animate-pulse align-middle"></span>
+            <span className="inline-block w-1.5 sm:w-2 md:w-3 h-8 sm:h-10 md:h-12 bg-blue-500 ml-1 sm:ml-2 animate-pulse align-middle"></span>
           </p>
         </div>
 
-        <p className="text-xl md:text-2xl text-slate-400 mb-14 max-w-3xl mx-auto leading-relaxed font-medium">
+        <p className="text-base sm:text-xl md:text-2xl text-slate-400 mb-10 sm:mb-14 max-w-3xl mx-auto leading-relaxed font-medium px-4">
           {lang === 'he' ? RON_DATA.bioHe : RON_DATA.bio}
         </p>
 
-        <div className="flex flex-wrap justify-center gap-6 mb-16">
+        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-6 mb-12 sm:mb-16 px-4">
           <button 
             onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-12 py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black text-lg transition-all flex items-center gap-3 group shadow-2xl shadow-blue-600/40 hover:-translate-y-1 active:scale-95"
+            className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl sm:rounded-2xl font-black text-base sm:text-lg transition-all flex items-center justify-center gap-3 group shadow-2xl shadow-blue-600/40 hover:-translate-y-1 active:scale-95"
           >
             {t.viewProjects}
             {lang === 'he' ? (
-              <ChevronLeft className="w-5 h-5 group-hover:-translate-x-2 transition-transform" />
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-2 transition-transform" />
             ) : (
-              <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-2 transition-transform" />
             )}
           </button>
           <button 
             onClick={openCharlie}
-            className="px-12 py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl font-black text-lg transition-all text-white backdrop-blur-xl hover:-translate-y-1 active:scale-95"
+            className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl sm:rounded-2xl font-black text-base sm:text-lg transition-all text-white backdrop-blur-xl hover:-translate-y-1 active:scale-95"
           >
             {t.chatWithCharlie}
           </button>
         </div>
 
-        <div className="flex justify-center gap-10 text-slate-500">
+        <div className="flex justify-center gap-8 sm:gap-10 text-slate-500">
           <a href={RON_DATA.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all hover:scale-125">
-            <Github className="w-7 h-7" />
+            <Github className="w-6 h-6 sm:w-7 sm:h-7" />
           </a>
           <a href={RON_DATA.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all hover:scale-125">
-            <Linkedin className="w-7 h-7" />
+            <Linkedin className="w-6 h-6 sm:w-7 sm:h-7" />
           </a>
           <a href={`mailto:${RON_DATA.email}`} className="hover:text-white transition-all hover:scale-125">
-            <Mail className="w-7 h-7" />
+            <Mail className="w-6 h-6 sm:w-7 sm:h-7" />
           </a>
         </div>
       </div>

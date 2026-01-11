@@ -76,7 +76,7 @@ export const TRANSLATIONS = {
       contact: "צור קשר"
     },
     hero: {
-      available: "זמין להזדמיונות AI/ML",
+      available: "זמין להזדמנויות AI/ML",
       greeting: "היי, אני",
       viewProjects: "צפה בפרויקטים",
       chatWithCharlie: "דבר עם צ'ארלי"
