@@ -116,6 +116,136 @@
             background: rgba(34, 211, 238, 0.3);
             color: white;
         }
+        
+        @media (max-width: 768px) {
+          /* Prevent horizontal scrolling on small screens */
+          html,
+          body {
+            max-width: 100%;
+            overflow-x: hidden;
+          }
+
+          /* Slightly tighter default section padding on mobile */
+          section {
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+          }
+
+          /* Navbar container padding */
+          nav .max-w-6xl {
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+
+          /* Typography: scale headings down, keep body >= 16px */
+          h1 {
+            font-size: 2.5rem !important;
+            line-height: 1.1;
+          }
+
+          h2 {
+            font-size: 2rem !important;
+            line-height: 1.15;
+          }
+
+          h3 {
+            font-size: 1.5rem !important;
+            line-height: 1.2;
+          }
+
+          /* Override very large display utilities on mobile */
+          .text-8xl,
+          .text-7xl {
+            font-size: 2.75rem !important;
+            line-height: 1.1 !important;
+          }
+
+          .text-6xl,
+          .text-5xl,
+          .text-4xl {
+            font-size: 2.1rem !important;
+            line-height: 1.15 !important;
+          }
+
+          .text-3xl {
+            font-size: 1.8rem !important;
+            line-height: 1.2 !important;
+          }
+
+          /* Ensure body / paragraph text is readable (>= 16px) */
+          p,
+          .text-base {
+            font-size: 1rem !important; /* 16px */
+            line-height: 1.6;
+          }
+
+          /* Small text slightly larger for readability */
+          .text-sm {
+            font-size: 0.95rem !important;
+          }
+
+          .text-xs,
+          .text-[10px] {
+            font-size: 0.8rem !important;
+          }
+
+          /* Hero: make CTA buttons stack full-width on narrow screens */
+          .flex.items-center.justify-center.gap-4.pt-6 > button {
+            width: 100%;
+          }
+
+          /* Projects: ensure clean single-column and spacing */
+          #projects .grid {
+            grid-template-columns: 1fr !important;
+            row-gap: 1.5rem;
+          }
+
+          #projects .glass {
+            border-radius: 1.5rem;
+          }
+
+          /* Tech stack: keep cards comfortable on mobile */
+          #stack .grid {
+            grid-template-columns: 1fr !important;
+            row-gap: 1.5rem;
+          }
+
+          #stack .glass {
+            padding: 1.25rem;
+          }
+
+          /* Experience timeline: reduce side padding and card padding */
+          #experience {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+          }
+
+          #experience .glass {
+            padding: 1.25rem;
+          }
+
+          /* Contact section: prevent any overflow from wide cards */
+          #contact .grid {
+            grid-template-columns: 1fr !important;
+            row-gap: 1.25rem;
+          }
+
+          #contact .glass {
+            padding: 1.5rem;
+          }
+
+          /* Chatbot: keep the panel comfortably within viewport */
+          .hologram-card {
+            width: 100vw;
+            max-width: 100%;
+            border-radius: 1.5rem;
+          }
+
+          /* Ensure chatbot container doesn’t cause horizontal scroll */
+          .fixed.bottom-8.z-\[1000\] {
+            max-width: 100%;
+          }
+        }
     </style>
 </head>
 <body class="selection:bg-cyan-500/30">
