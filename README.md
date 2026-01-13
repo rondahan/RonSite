@@ -1,20 +1,7 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
 
 # Ron Dahan Portfolio - AI-Powered Portfolio Website
 
 Portfolio website built with React, TypeScript, Vite, and Google Gemini AI.
-
----
-
-## 📋 תוכן עניינים / Table of Contents
-
-- [איך Google AI Studio בנתה את זה?](#איך-google-ai-studio-בנתה-את-זה)
-- [מה תוקן בקוד?](#מה-תוקן-בקוד)
-- [הרצה מקומית (Localhost)](#הרצה-מקומית-localhost)
-- [פריסה ל-Vercel](#פריסה-ל-vercel)
-- [פריסה ל-Netlify](#פריסה-ל-netlify)
 
 ---
 
