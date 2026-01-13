@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, User, Bot, Trash2, Download, Minimize2, Sparkles, Brain, X } from 'lucide-react';
+import { Send, User, Trash2, X, Terminal, Activity, Bot, Zap, Cpu, Key } from 'lucide-react';
 import { getRonAIResponse } from '../services/gemini';
 import { ChatMessage } from '../types';
 import { Language, TRANSLATIONS } from '../constants';
@@ -9,229 +9,299 @@ interface ChatbotProps {
   lang: Language;
 }
 
+// Helper to detect if content is primarily Hebrew/RTL
+const isRTLText = (text: string) => {
+  const rtlChars = /[\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC]/;
+  return rtlChars.test(text);
+};
+
+// Helper to parse simple markdown links [title](url) and plain URLs
+const formatMessage = (text: string) => {
+  // Regex for Markdown links: [title](url)
+  const mdLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = mdLinkRegex.exec(text)) !== null) {
+    // Add text before the match
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    // Add the link
+    parts.push(
+      <a 
+        key={match.index} 
+        href={match[2]} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="text-cyan-400 underline hover:text-cyan-300 font-bold transition-colors inline-flex items-center gap-1"
+      >
+        {match[1]}
+      </a>
+    );
+    lastIndex = mdLinkRegex.lastIndex;
+  }
+
+  // Add remaining text
+  if (lastIndex < text.length) {
+    const remaining = text.substring(lastIndex);
+    // Simple linkify for plain URLs
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const subParts = [];
+    let subLastIndex = 0;
+    let subMatch;
+
+    while ((subMatch = urlRegex.exec(remaining)) !== null) {
+      if (subMatch.index > subLastIndex) {
+        subParts.push(remaining.substring(subLastIndex, subMatch.index));
+      }
+      subParts.push(
+        <a 
+          key={subMatch.index} 
+          href={subMatch[1]} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-cyan-400 underline hover:text-cyan-300 transition-colors"
+        >
+          {subMatch[1]}
+        </a>
+      );
+      subLastIndex = urlRegex.lastIndex;
+    }
+    if (subLastIndex < remaining.length) {
+      subParts.push(remaining.substring(subLastIndex));
+    }
+    parts.push(...subParts);
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
+const NeuralSphere = ({ isTyping, size = "large" }: { isTyping: boolean, size?: "small" | "large" }) => {
+  const isSmall = size === "small";
+  const containerSize = isSmall ? "w-10 h-10" : "w-20 h-20";
+  const innerSize = isSmall ? "w-8 h-8" : "w-16 h-16";
+  
+  // High-fidelity AI Robot Head - Reliable URL
+  const aiAvatarUrl = "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=400&h=400&auto=format&fit=crop";
+
+  return (
+    <div className={`relative ${containerSize} flex items-center justify-center group`}>
+      {/* Outer Atmospheric Glow */}
+      <div className={`absolute inset-0 rounded-full bg-cyan-500 blur-2xl transition-all duration-1000 ${
+        isTyping ? 'scale-150 opacity-50 animate-pulse' : 'scale-100 opacity-20'
+      }`}></div>
+      
+      {/* Dynamic Energy Rings */}
+      <div className={`absolute inset-0 border-2 border-cyan-400/20 rounded-full animate-spin-slow ${isTyping ? '[animation-duration:3s]' : '[animation-duration:10s]'}`}></div>
+      <div className={`absolute -inset-1 border border-emerald-400/10 rounded-full animate-spin-slow direction-reverse ${isTyping ? '[animation-duration:5s]' : '[animation-duration:15s]'}`}></div>
+
+      {/* Main Core - The Robot Avatar */}
+      <div className={`relative z-10 ${innerSize} rounded-full border-2 border-white/20 overflow-hidden flex items-center justify-center bg-slate-900 shadow-[0_0_20px_rgba(34,211,238,0.3)] group-hover:scale-105 transition-transform duration-500`}>
+        {/* The Robot Head Image */}
+        <img 
+          src={aiAvatarUrl} 
+          alt="Charlie AI Avatar"
+          className={`w-full h-full object-cover transition-all duration-700 ${
+            isTyping ? 'scale-115 brightness-125 saturate-150' : 'scale-110 brightness-110 animate-float'
+          }`}
+        />
+
+        {/* Scanline / Holographic Overlay */}
+        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(transparent_50%,rgba(0,255,255,0.05)_50%)] bg-[length:100%_4px] animate-scanline opacity-30"></div>
+        
+        {/* Thinking State Overlay */}
+        {isTyping && (
+          <div className="absolute inset-0 bg-cyan-500/20 flex items-center justify-center backdrop-blur-[1px]">
+            <Zap className="w-1/2 h-1/2 text-cyan-200 animate-pulse drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
+          </div>
+        )}
+        
+        {/* Subtle Gradient for depth */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
+      </div>
+
+      {/* Pulsing Orbit Dots */}
+      <div className={`absolute w-1.5 h-1.5 bg-cyan-300 rounded-full blur-[0.5px] animate-orbit shadow-[0_0_5px_#22d3ee] ${isTyping ? 'opacity-100' : 'opacity-60'}`}></div>
+    </div>
+  );
+};
+
 const Chatbot: React.FC<ChatbotProps> = ({ lang }) => {
   const t = TRANSLATIONS[lang].charlie;
-  
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isMinimized, setIsMinimized] = useState(true);
+  const [lastErrorType, setLastErrorType] = useState<'quota' | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMessages([{
-      role: 'assistant',
-      content: t.initial,
-      timestamp: new Date()
-    }]);
-
+    setMessages([{ role: 'assistant', content: t.initial, timestamp: new Date() }]);
     const handleOpen = () => setIsMinimized(false);
     window.addEventListener('open-charlie', handleOpen);
     return () => window.removeEventListener('open-charlie', handleOpen);
   }, [lang, t.initial]);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
-    if (!isMinimized) {
-      scrollToBottom();
-    }
+    if (!isMinimized) messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping, isMinimized]);
 
   const handleSend = async (textOverride?: string) => {
     const textToSend = textOverride || input;
     if (!textToSend.trim() || isTyping) return;
 
-    const currentInput = textToSend;
-    const userMessage: ChatMessage = {
-      role: 'user',
-      content: currentInput,
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
+    setMessages(prev => [...prev, { role: 'user', content: textToSend, timestamp: new Date() }]);
     if (!textOverride) setInput('');
     setIsTyping(true);
+    setLastErrorType(null);
 
     const history = messages.map(m => ({ role: m.role, content: m.content }));
-    const responseText = await getRonAIResponse(history, currentInput, lang);
+    const responseText = await getRonAIResponse(history, textToSend, lang);
 
     setIsTyping(false);
-    setMessages(prev => [...prev, {
-      role: 'assistant',
-      content: responseText,
-      timestamp: new Date()
-    }]);
-  };
+    setMessages(prev => [...prev, { role: 'assistant', content: responseText, timestamp: new Date() }]);
 
-  const handleClear = () => {
-    if (confirm(t.clear)) {
-      setMessages([{
-        role: 'assistant',
-        content: t.initial,
-        timestamp: new Date()
-      }]);
+    // Check if the response contains keywords suggesting a quota error
+    if (responseText.includes('quota') || responseText.includes('מכסה')) {
+      setLastErrorType('quota');
     }
   };
 
-  const handleExport = () => {
-    const text = messages.map(m => `[${m.role.toUpperCase()}] ${m.content}`).join('\n\n');
-    const blob = new Blob([text], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Charlie_Chat_${lang}.txt`;
-    a.click();
+  const handleOpenKeySelection = async () => {
+    try {
+      // @ts-ignore
+      await window.aistudio.openSelectKey();
+      // Assume success and clear error state
+      setLastErrorType(null);
+    } catch (e) {
+      console.error("Could not open key selection", e);
+    }
   };
 
-  const renderMessageContent = (content: string) => {
-    const parts = content.split(/Sources?:|מקורות:/i);
-    const body = parts[0];
-    const source = parts[1];
-
-    return (
-      <div className="space-y-3">
-        {body.split('\n').map((line, idx) => (
-          <p key={idx} className={`${idx > 0 ? 'mt-2' : ''} font-medium`}>{line}</p>
-        ))}
-        {source && (
-          <div className="mt-4 pt-3 border-t border-white/5 flex items-center gap-2">
-            <div className="p-1 bg-blue-400/20 rounded">
-              <Sparkles className="w-2.5 h-2.5 text-blue-400" />
-            </div>
-            <span className="text-[10px] font-black text-blue-400/70 uppercase tracking-[0.2em]">
-              {t.sources}: {source.trim()}
-            </span>
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  const isRtl = lang === 'he';
+  const isRtlUI = lang === 'he';
 
   return (
-    <div 
-      className={`fixed ${isRtl ? 'left-0 sm:left-4 lg:left-10' : 'right-0 sm:right-4 lg:right-10'} bottom-0 sm:bottom-10 z-[110] transition-all duration-500 ease-out flex flex-col ${isRtl ? 'items-start' : 'items-end'} w-full sm:w-auto`}
-      dir={isRtl ? 'rtl' : 'ltr'}
-    >
-      {/* Expanded Chat Window */}
-      <div 
-        className={`glass rounded-t-3xl sm:rounded-[2rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.6)] flex flex-col h-[calc(100vh-80px)] sm:h-[600px] w-[100vw] sm:w-[420px] border-white/10 transition-all duration-500 ${isRtl ? 'origin-bottom-left' : 'origin-bottom-right'} mb-0 sm:mb-4 ${
-          isMinimized ? 'opacity-0 scale-90 translate-y-10 pointer-events-none' : 'opacity-100 scale-100 translate-y-0'
-        }`}
-      >
-        <div className="p-4 sm:p-5 border-b border-white/5 flex items-center justify-between bg-white/[0.03] backdrop-blur-3xl">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 bg-blue-600 rounded-xl flex items-center justify-center relative shadow-lg">
-              <Bot className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              <div className="absolute -bottom-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 border-2 border-slate-950 rounded-full"></div>
-            </div>
-            <div>
-              <h3 className="font-black text-sm sm:text-base">{lang === 'he' ? "צ'ארלי" : "Charlie"}</h3>
-              <span className="text-[8px] sm:text-[9px] text-green-500 font-black uppercase tracking-widest flex items-center gap-1.5">
-                <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
-                {t.status}
-              </span>
+    <div className={`fixed ${isRtlUI ? 'left-6 md:left-12' : 'right-6 md:right-12'} bottom-8 z-[1000] flex flex-col items-end pointer-events-none`} dir={isRtlUI ? 'rtl' : 'ltr'}>
+      {/* HUD Chat Window */}
+      <div className={`hologram-card rounded-[2.5rem] shadow-2xl flex flex-col h-[70vh] w-[90vw] sm:w-[450px] transition-all duration-700 origin-bottom-${isRtlUI ? 'left' : 'right'} mb-6 pointer-events-auto border-none ${
+        isMinimized ? 'opacity-0 scale-90 translate-y-20 hidden' : 'opacity-100 scale-100 translate-y-0'
+      }`}>
+        {/* Header HUD */}
+        <div className="p-6 border-b border-cyan-500/20 flex items-center justify-between bg-cyan-600/5">
+          <div className="flex items-center gap-4">
+            <NeuralSphere isTyping={isTyping} size="small" />
+            <div className={isRtlUI ? 'text-right' : 'text-left'}>
+              <h3 className="font-bold text-white text-sm tracking-tight flex items-center gap-2">
+                {t.title}
+                <div className="px-1.5 py-0.5 bg-cyan-500/20 text-cyan-400 text-[8px] border border-cyan-500/30 rounded font-mono">NEURAL_V3</div>
+              </h3>
+              <div className="flex items-center gap-2 mt-0.5">
+                <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-pulse shadow-[0_0_8px_#22d3ee]"></span>
+                <span className="text-[9px] text-cyan-400 font-mono font-bold uppercase tracking-widest">Interface Stream: Online</span>
+              </div>
             </div>
           </div>
-          <div className="flex items-center gap-1">
-            <button onClick={handleExport} title="Export Chat" className="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg text-slate-400 transition-all hover:text-white">
-              <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            </button>
-            <button onClick={handleClear} title="Clear Chat" className="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg text-slate-400 transition-all hover:text-white">
-              <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            </button>
-            <button onClick={() => setIsMinimized(true)} title="Close" className="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg text-slate-400 transition-all hover:text-white">
-              <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          
+          <div className="flex gap-1">
+            <button onClick={() => setIsMinimized(true)} className="p-2 hover:bg-white/10 rounded-full text-slate-400 hover:text-white transition-all">
+              <X className="w-5 h-5" />
             </button>
           </div>
         </div>
 
-        <div className="flex-grow overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6 no-scrollbar bg-gradient-to-b from-transparent to-white/[0.01]">
-          {messages.map((msg, i) => (
-            <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`flex gap-4 max-w-[85%] ${msg.role === 'user' ? (isRtl ? 'flex-row' : 'flex-row-reverse') : (isRtl ? 'flex-row-reverse' : 'flex-row')}`}>
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg ${
-                  msg.role === 'user' ? 'bg-slate-800' : 'bg-blue-600'
-                }`}>
-                  {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
-                </div>
-                <div className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs leading-relaxed relative shadow-xl transition-all ${
-                  msg.role === 'user' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-white/[0.07] border border-white/10 text-slate-200 backdrop-blur-xl'
-                }`}>
-                  {msg.role === 'assistant' ? renderMessageContent(msg.content) : <p className="font-medium">{msg.content}</p>}
-                </div>
+        {/* Chat Area */}
+        <div className="flex-grow overflow-y-auto p-6 space-y-6 no-scrollbar bg-slate-950/80">
+          {messages.map((msg, i) => {
+            const isRTL = isRTLText(msg.content);
+            const isLastMessage = i === messages.length - 1;
+            return (
+              <div key={i} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
+                  <div 
+                    className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed transition-all relative ${
+                      msg.role === 'user' 
+                      ? 'bg-blue-600 text-white rounded-br-none shadow-lg shadow-blue-500/10' 
+                      : 'bg-white/5 border border-white/10 text-slate-200 rounded-bl-none'
+                    } ${isRTL ? 'text-right' : 'text-left'}`}
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                    style={{ fontFamily: isRTL ? 'Assistant, Inter, sans-serif' : 'Inter, Assistant, sans-serif' }}
+                  >
+                      {msg.role === 'assistant' && (
+                        <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#22d3ee_1px,transparent_1px)] bg-[size:12px_12px] rounded-2xl"></div>
+                      )}
+                      
+                      <div className={`flex items-center gap-2 mb-1.5 opacity-60 text-[9px] uppercase font-bold tracking-wider font-mono ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                          {msg.role === 'user' ? <User className="w-2.5 h-2.5" /> : <Terminal className="w-2.5 h-2.5" />}
+                          <span>{msg.role} // {msg.timestamp.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                      </div>
+                      <div className="font-medium whitespace-pre-wrap break-words relative z-10">
+                        {formatMessage(msg.content)}
+                      </div>
+
+                      {/* Actionable Error Correction UI */}
+                      {isLastMessage && msg.role === 'assistant' && lastErrorType === 'quota' && (
+                        <div className="mt-4 pt-4 border-t border-white/10 space-y-3">
+                          <button 
+                            onClick={handleOpenKeySelection}
+                            className="flex items-center gap-2 w-full justify-center px-4 py-2.5 bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-400 rounded-xl text-[10px] font-black uppercase tracking-widest border border-cyan-500/30 transition-all active:scale-95 shadow-[0_0_15px_rgba(34,211,238,0.1)]"
+                          >
+                            <Key className="w-3 h-3" />
+                            {lang === 'he' ? 'השתמש במפתח API משלך' : 'Use your own API Key'}
+                          </button>
+                          <p className="text-[9px] text-slate-500 text-center leading-tight">
+                            {lang === 'he' 
+                              ? 'בחר מפתח API מפרויקט בתשלום כדי להימנע ממגבלות מכסה.' 
+                              : 'Select an API key from a paid project to bypass global quota limits.'}
+                            <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" className="ml-1 text-cyan-600/60 underline hover:text-cyan-400">Docs</a>
+                          </p>
+                        </div>
+                      )}
+                  </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
           {isTyping && (
-            <div className={`flex ${isRtl ? 'justify-end' : 'justify-start'}`}>
-              <div className={`flex gap-4 ${isRtl ? 'flex-row' : 'flex-row'}`}>
-                <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-xl">
-                  <Bot className="w-4 h-4" />
-                </div>
-                <div className="bg-white/[0.07] border border-white/10 p-4 rounded-xl flex gap-1 items-center">
-                  <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce"></div>
-                  <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce delay-150"></div>
-                  <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce delay-300"></div>
-                </div>
+            <div className="flex justify-start">
+              <div className="bg-cyan-500/5 border border-cyan-500/20 p-3 rounded-xl rounded-bl-none flex gap-2 items-center">
+                <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce"></div>
+                <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce delay-100"></div>
+                <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce delay-200"></div>
+                <span className="text-[10px] font-mono text-cyan-400 ml-1 uppercase tracking-tighter">Thinking...</span>
               </div>
             </div>
           )}
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="p-4 sm:p-6 border-t border-white/5 bg-white/[0.02] space-y-3 sm:space-y-4">
-          <div className="flex flex-wrap gap-1.5 sm:gap-2 overflow-x-auto pb-2 no-scrollbar">
-            {t.suggestions.map((suggestion, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleSend(suggestion)}
-                disabled={isTyping}
-                className="whitespace-nowrap px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-600/10 hover:bg-blue-600 hover:text-white border border-blue-500/20 rounded-lg sm:rounded-xl text-[8px] sm:text-[9px] font-black text-blue-400 transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none uppercase tracking-[0.1em]"
-              >
-                {suggestion}
-              </button>
-            ))}
-          </div>
-
-          <form 
-            onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-            className="relative flex items-center gap-2 sm:gap-3"
-          >
+        {/* Input HUD */}
+        <div className="p-4 bg-slate-900 border-t border-cyan-500/10">
+          <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="flex items-center gap-2 bg-slate-950 border border-cyan-500/20 rounded-2xl p-2 pr-2">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t.placeholder}
-              disabled={isTyping}
-              className="w-full bg-white/[0.05] border border-white/10 rounded-lg sm:rounded-xl py-3 sm:py-4 px-4 sm:px-6 pr-12 sm:pr-14 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.08] text-[11px] sm:text-xs font-medium transition-all"
+              className="flex-grow bg-transparent border-none py-3 px-4 focus:outline-none focus:ring-0 text-sm text-white placeholder:text-slate-600 font-sans"
+              dir="auto"
             />
             <button 
               type="submit"
               disabled={!input.trim() || isTyping}
-              className={`absolute ${isRtl ? 'left-2' : 'right-2'} sm:${isRtl ? 'left-2.5' : 'right-2.5'} top-1/2 -translate-y-1/2 p-2 sm:p-2.5 bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 text-white rounded-lg transition-all shadow-lg active:scale-90`}
+              className="p-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl transition-all active:scale-95 disabled:opacity-30 shadow-lg shadow-cyan-500/20"
             >
-              <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <Send className="w-4 h-4" />
             </button>
           </form>
         </div>
       </div>
 
-      {/* Floating Bubble */}
+      {/* Floating Avatar Trigger */}
       <div 
         onClick={() => setIsMinimized(!isMinimized)}
-        className={`p-4 sm:p-5 bg-blue-600 rounded-full shadow-[0_20px_60px_-15px_rgba(59,130,246,0.6)] cursor-pointer hover:scale-110 transition-all group animate-float m-4 sm:m-0 ${
-          isMinimized ? 'opacity-100' : 'opacity-0 scale-50 pointer-events-none'
-        }`}
+        className={`pointer-events-auto cursor-pointer transition-all duration-500 hover:scale-110 active:scale-95 ${isMinimized ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}
       >
-        <Bot className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
-        <div className="absolute top-0 right-0 w-3 h-3 sm:w-4 sm:h-4 bg-green-500 border-3 sm:border-4 border-slate-950 rounded-full"></div>
+        <NeuralSphere isTyping={isTyping} />
       </div>
     </div>
   );
