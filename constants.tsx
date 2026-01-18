@@ -218,9 +218,9 @@ export const EXPERIENCE: Record<Language, Experience[]> = {
       skills: ["AI Agents", "RAG", "LLMs", "Autonomous Workflows"]
     },
     {
-      role: "AI Developer (Intern)",
+      role: "AI Developer",
       company: "Partix.ai",
-      period: "2025 (6 months, Full-time)",
+      period: "2025",
       description: [
         "Worked full-time for 6 months developing and deploying AI-driven features in production environments.",
         "Integrated AI Agents using Mastra and complex API ecosystems.",
@@ -262,9 +262,9 @@ export const EXPERIENCE: Record<Language, Experience[]> = {
       skills: ["AI Agents", "RAG", "LLMs", "Autonomous Workflows"]
     },
     {
-      role: "מפתח AI (Intern)",
+      role: "מפתח AI",
       company: "פארטיקס (Partix.ai)",
-      period: "2025 (6 חודשים, משרה מלאה)",
+      period: "2025",
       description: [
         "עבדתי במשרה מלאה במשך 6 חודשים בפיתוח ופריסת פיצ'רים מבוססי AI בסביבת ייצור.",
         "הטמעת סוכני AI באמצעות Mastra ואינטגרציה של LLM APIs.",

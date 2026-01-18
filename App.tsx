@@ -49,7 +49,7 @@ const Contact = ({ lang }: { lang: Language }) => {
 };
 
 const App: React.FC = () => {
-  const [lang, setLang] = useState<Language>('en');
+  const [lang, setLang] = useState<Language>('he');
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -210,7 +210,7 @@ const App: React.FC = () => {
 
       <footer className="py-16 text-center border-t border-slate-200 dark:border-white/5 bg-white dark:bg-transparent">
         <p className="text-slate-500 text-sm font-semibold mb-6">
-          © {new Date().getFullYear()} Ron Dahan • {lang === 'he' ? 'נבנה עם React & Gemini 3' : 'Built with React & Gemini 3'}
+          רון דהן {new Date().getFullYear()} כל הזכויות שמורות
         </p>
         <div className="flex justify-center gap-8 text-slate-400">
            <a href={RON_DATA.github} target="_blank" className="hover:text-blue-600 transition-all"><Github className="w-6 h-6" /></a>
