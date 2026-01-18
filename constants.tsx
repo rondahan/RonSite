@@ -148,11 +148,7 @@ export const RON_DATA = {
   email: "rondahan124@gmail.com",
   linkedin: "https://www.linkedin.com/in/ron-dahan-developer/",
   github: "https://github.com/rondahan",
-  cvUrls: {
-    ai: "https://drive.google.com/file/d/1OWw3vF_GQjoQYFcZCPAv7th6WvLKzmlD/view?usp=drive_link",
-    ml: "https://drive.google.com/file/d/15JzVB7RsqEy5WOhnSThj0w7TiDBtjbpk/view?usp=drive_link",
-    fullstack: "https://drive.google.com/file/d/1Nc_9_cbm0rQdYee9tEeLeT8AcPV8OIFp/view?usp=drive_link"
-  }
+  cvUrl: "https://drive.google.com/file/d/1yOJg60lPTU0m8aEuqGjRGq6JHYsAB4fv/view?usp=drive_link"
 };
 
 export const PROJECTS: Record<Language, Project[]> = {
@@ -224,9 +220,9 @@ export const EXPERIENCE: Record<Language, Experience[]> = {
     {
       role: "AI Developer (Intern)",
       company: "Partix.ai",
-      period: "2025",
+      period: "2025 (6 months, Full-time)",
       description: [
-        "Developed and deployed AI-driven features in production environments.",
+        "Worked full-time for 6 months developing and deploying AI-driven features in production environments.",
         "Integrated AI Agents using Mastra and complex API ecosystems.",
         "Built scalable RAG pipelines with vector databases."
       ],
@@ -268,9 +264,9 @@ export const EXPERIENCE: Record<Language, Experience[]> = {
     {
       role: "מפתח AI (Intern)",
       company: "פארטיקס (Partix.ai)",
-      period: "2025",
+      period: "2025 (6 חודשים, משרה מלאה)",
       description: [
-        "פיתוח ופריסת פיצ'רים מבוססי AI בסביבת ייצור.",
+        "עבדתי במשרה מלאה במשך 6 חודשים בפיתוח ופריסת פיצ'רים מבוססי AI בסביבת ייצור.",
         "הטמעת סוכני AI באמצעות Mastra ואינטגרציה של LLM APIs.",
         "בניית צינורות RAG עם מסדי נתונים וקטוריים."
       ],
