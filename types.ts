@@ -10,6 +10,7 @@ export interface Project {
   image: string;
   githubUrl?: string;
   websiteUrl?: string;
+  npmUrl?: string;
 }
 
 export interface Experience {

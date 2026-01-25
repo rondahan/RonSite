@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { PROJECTS, Language, TRANSLATIONS } from '../constants';
-import { ExternalLink, CheckCircle2, Github, Terminal, Layers, Globe } from 'lucide-react';
+import { ExternalLink, CheckCircle2, Github, Terminal, Layers, Globe, Package } from 'lucide-react';
 
 interface ProjectsProps {
   lang: Language;
@@ -76,12 +76,17 @@ const Projects: React.FC<ProjectsProps> = ({ lang }) => {
                     </div>
                     <div className="flex gap-2">
                       {project.githubUrl && (
-                        <a href={project.githubUrl} target="_blank" className="p-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="GitHub Source">
+                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="p-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="GitHub Source">
                           <Github className="w-5 h-5" />
                         </a>
                       )}
+                      {project.npmUrl && (
+                        <a href={project.npmUrl} target="_blank" rel="noopener noreferrer" className="p-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="NPM Package">
+                          <Package className="w-5 h-5" />
+                        </a>
+                      )}
                       {project.websiteUrl && (
-                        <a href={project.websiteUrl} target="_blank" className="p-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="Live Demo">
+                        <a href={project.websiteUrl} target="_blank" rel="noopener noreferrer" className="p-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="Live Demo">
                           <Globe className="w-5 h-5" />
                         </a>
                       )}

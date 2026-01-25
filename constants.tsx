@@ -175,6 +175,18 @@ export const PROJECTS: Record<Language, Project[]> = {
       image: "https://images.unsplash.com/photo-1516110833967-0b5716ca1387?auto=format&fit=crop&q=80&w=1000",
       githubUrl: "https://github.com/rondahan/Dream-Maze-Solover",
       websiteUrl: "https://dream-maze-solover.vercel.app/"
+    },
+    {
+      id: 'bloatbuster',
+      title: "BloatBuster",
+      category: "NPM Package",
+      description: "A powerful npm package that analyzes project dependencies to identify and remove unused packages, helping reduce project size and optimize bundle performance.",
+      features: ["Dependency Analysis", "Unused Package Detection", "Size Optimization", "One-Click Removal"],
+      technologies: ["Node.js", "NPM", "JavaScript", "CLI"],
+      status: "Published Package",
+      image: "/bloatbuster.png",
+      githubUrl: "https://github.com/rondahan/BLOATBUSTER",
+      npmUrl: "https://www.npmjs.com/package/bloatbuster"
     }
   ],
   he: [
@@ -200,6 +212,18 @@ export const PROJECTS: Record<Language, Project[]> = {
       image: "https://images.unsplash.com/photo-1516110833967-0b5716ca1387?auto=format&fit=crop&q=80&w=1000",
       githubUrl: "https://github.com/rondahan/Dream-Maze-Solover",
       websiteUrl: "https://dream-maze-solover.vercel.app/"
+    },
+    {
+      id: 'bloatbuster',
+      title: "BloatBuster",
+      category: "חבילת NPM",
+      description: "חבילת npm חזקה המנתחת תלויות פרויקט לזיהוי והסרת חבילות לא בשימוש, מסייעת להקטנת גודל הפרויקט ואופטימיזציה של ביצועים.",
+      features: ["ניתוח תלויות", "זיהוי חבילות לא בשימוש", "אופטימיזציית גודל", "הסרה בלחיצה אחת"],
+      technologies: ["Node.js", "NPM", "JavaScript", "CLI"],
+      status: "חבילה שפורסמה",
+      image: "/bloatbuster.png",
+      githubUrl: "https://github.com/rondahan/BLOATBUSTER",
+      npmUrl: "https://www.npmjs.com/package/bloatbuster"
     }
   ]
 };
