@@ -187,6 +187,18 @@ export const PROJECTS: Record<Language, Project[]> = {
       image: "/bloatbuster.png",
       githubUrl: "https://github.com/rondahan/BLOATBUSTER",
       npmUrl: "https://www.npmjs.com/package/bloatbuster"
+    },
+    {
+      id: 'llm-cost-estimator',
+      title: "LLM Cost Estimator",
+      category: "NPM Package",
+      description: "A CLI tool and npm package for estimating USD costs of Large Language Model API calls with dynamic pricing fetching and accurate token counting across multiple providers.",
+      features: ["Accurate Token Counting", "Dynamic Pricing", "Multi-Provider Support", "Smart Caching", "CLI Tool"],
+      technologies: ["TypeScript", "Node.js", "CLI", "TikToken"],
+      status: "Published Package",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000",
+      githubUrl: "https://github.com/rondahan/-llm-cost-estimator",
+      npmUrl: "https://www.npmjs.com/package/llm-cost-estimator"
     }
   ],
   he: [
@@ -224,6 +236,18 @@ export const PROJECTS: Record<Language, Project[]> = {
       image: "/bloatbuster.png",
       githubUrl: "https://github.com/rondahan/BLOATBUSTER",
       npmUrl: "https://www.npmjs.com/package/bloatbuster"
+    },
+    {
+      id: 'llm-cost-estimator',
+      title: "LLM Cost Estimator",
+      category: "חבילת NPM",
+      description: "כלי CLI וחבילת npm להערכת עלויות בדולרים של קריאות API למודלי שפה גדולים עם קבלת מחירים דינמית וספירת טוקנים מדויקת בין ספקים מרובים.",
+      features: ["ספירת טוקנים מדויקת", "מחירים דינמיים", "תמיכה בכמה ספקים", "מטמון חכם", "כלי CLI"],
+      technologies: ["TypeScript", "Node.js", "CLI", "TikToken"],
+      status: "חבילה שפורסמה",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000",
+      githubUrl: "https://github.com/rondahan/-llm-cost-estimator",
+      npmUrl: "https://www.npmjs.com/package/llm-cost-estimator"
     }
   ]
 };
