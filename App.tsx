@@ -49,7 +49,7 @@ const Contact = ({ lang }: { lang: Language }) => {
 };
 
 const App: React.FC = () => {
-  const [lang, setLang] = useState<Language>('he');
+  const [lang, setLang] = useState<Language>('en');
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);

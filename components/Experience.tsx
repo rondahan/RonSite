@@ -24,9 +24,9 @@ const Experience: React.FC<ExperienceProps> = ({ lang }) => {
           {/* Vertical Line */}
           <div className={`absolute ${isRtl ? 'right-4' : 'left-4'} md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-white/10`}></div>
           
-          <div className="space-y-12">
+          <div className="space-y-10 md:space-y-12">
             {experience.map((exp, idx) => (
-              <div key={idx} className={`relative flex flex-col md:flex-row items-center ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+              <div key={idx} className={`relative flex flex-col md:flex-row items-start md:items-center ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
                 
                 {/* Year Badge for Desktop */}
                 <div className={`hidden md:flex w-1/2 ${idx % 2 === 0 ? (isRtl ? 'justify-end pr-12' : 'justify-start pl-12') : (isRtl ? 'justify-start pl-12' : 'justify-end pr-12')}`}>
@@ -40,7 +40,7 @@ const Experience: React.FC<ExperienceProps> = ({ lang }) => {
                 
                 {/* Content Card */}
                 <div className={`w-full md:w-1/2 ${isRtl ? 'pr-12' : 'pl-12'} md:px-12`}>
-                  <div className="glass p-7 rounded-[2rem] hover:border-blue-500/40 transition-all group shadow-sm hover:shadow-xl">
+                  <div className="glass p-6 md:p-7 rounded-[2rem] hover:border-blue-500/40 transition-all group shadow-sm hover:shadow-xl">
                     <div className="md:hidden flex items-center gap-2 text-blue-500 font-bold text-xs mb-3">
                         <Calendar className="w-3 h-3" />
                         {exp.period}
